@@ -1,0 +1,41 @@
+import requests
+import json
+import sys
+import time
+# Replace with your actual API key
+API_KEY = "AIzaSyDV-e9YOw6jOUJRAPAHY3SdUmLi67wfceQ"
+text = ""
+if len(sys.argv) > 1:
+     text ="Refuse to answer if the question is not related to  bash terminal orders and if it related to bash terminal orders make output like that 'Genie: To copy files and directories, you can use the 'cp' command.and sh>
+else :
+    exit()
+# Define the URL endpoint
+url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY
+
+# Prepare the request data
+data = {
+    "contents": [
+        {
+            "parts": [
+                {"text":text}
+            ]
+        }
+    ]
+}
+
+# Set headers
+headers = {"Content-Type": "application/json"}
+
+# Send the POST request
+response = requests.post(url, headers=headers, json=data)
+
+# Check for successful response
+if response.status_code == 200:
+
+  # Parse the JSON response
+  data = response.json().get('candidates')[0].get('content').get('parts')[0].get('text')
+
+  # Access the generated text
+  print(data)
+else:
+  print(f"Error: API request failed with status code {response.status_code}")
